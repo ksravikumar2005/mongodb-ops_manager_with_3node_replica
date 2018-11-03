@@ -72,9 +72,9 @@ services:
           - node.labels.name == replica1
 #      restart_policy:
  #       condition: unless-stopped
-  replica1:
+  replica2:
     image:  ksravikumar2005/mongo:automation-agent
-    hostname: replica1
+    hostname: replica2
     ports:
       - 45017:27017
     networks:
@@ -86,13 +86,13 @@ services:
       replicas: 0
       placement:
         constraints:
-          - node.labels.name == gtwtest1
+          - node.labels.name == replica2
   #    restart_policy:
    #     condition: unless-stopped
 
-  replica2:
+  replica3:
     image: ksravikumar2005/mongo:automation-agent
-    hostname: replica2
+    hostname: replica3
     ports:
       - 46017:27017
     networks:
@@ -104,7 +104,7 @@ services:
       replicas: 0
       placement:
         constraints:
-          - node.labels.name == gtwtest0
+          - node.labels.name == replica3
 #      restart_policy:
  #       condition: unless-stopped
 volumes:
