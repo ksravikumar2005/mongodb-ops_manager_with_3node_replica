@@ -114,6 +114,9 @@ volumes:
    opt-mms:
    backup_data_db:
    application_data_db:
+   HEADDIR:
+   snapshotstore:
+   blockstore:
 
 networks:
   mongo:
