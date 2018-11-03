@@ -1,0 +1,96 @@
+version: "3.3"
+
+services:
+  opsmanager:
+     image: ksravikumar2005/mongo:opsmanager
+     ports:
+       - 8080:8080
+       - 8081:8081
+     volumes:
+       - opsmanager_datadb:/data/db
+       - HEADDIR:/HEAD
+       - snapshotstore:/snapshots
+       - blockstore:/blockstore
+       - ./ops-manager/default-conf-mms.properties:/opt/mongodb/mms/conf/conf-mms.properties
+       - ./ops-manager/etc/mongodb-mms:/etc/mongodb-mms
+     networks:
+      - mongo
+
+  backup:
+     image: mongo:latest
+     ports:
+       - 37017:27017
+     volumes:
+       - backup_data_db:/data/db
+     networks:
+      - mongo
+
+  db:
+     image: mongo:latest
+     ports:
+       - 27017:27017
+     volumes:
+       - application_data_db:/data/db
+     networks:
+      - mongo
+
+  replica1:
+    image: ksravikumar2005/mongo:automation-agent
+    hostname: replica1
+    ports:
+      - 44017:27017
+    networks:
+      - mongo
+#    volumes:
+    command: --mmsBaseUrl=http://opsmanager:8080 --mmsGroupId=  --mmsApiKey=  --logFile=/var/log/mongodb-mms-automation/automation-agent.log
+    deploy:
+      mode: replicated
+      replicas: 0
+      placement:
+        constraints:
+          - node.labels.name == replica1
+#      restart_policy:
+ #       condition: unless-stopped
+  replica1:
+    image:  ksravikumar2005/mongo:automation-agent
+    hostname: replica1
+    ports:
+      - 45017:27017
+    networks:
+      - mongo
+ #   volumes:
+    command: --mmsBaseUrl=http://opsmanager:8080 --mmsGroupId=  --mmsApiKey= --logFile=/var/log/mongodb-mms-automation/automation-agent.log
+    deploy:
+      mode: replicated
+      replicas: 0
+      placement:
+        constraints:
+          - node.labels.name == gtwtest1
+  #    restart_policy:
+   #     condition: unless-stopped
+
+  replica2:
+    image: ksravikumar2005/mongo:automation-agent
+    hostname: replica2
+    ports:
+      - 46017:27017
+    networks:
+      - mongo
+#    volumes:
+    command: --mmsBaseUrl=http://opsmanager:8080 --mmsGroupId=  --mmsApiKey= --logFile=/var/log/mongodb-mms-automation/automation-agent.log
+    deploy:
+      mode: replicated
+      replicas: 0
+      placement:
+        constraints:
+          - node.labels.name == gtwtest0
+#      restart_policy:
+ #       condition: unless-stopped
+volumes:
+   opsmanager_datadb:
+   etc-mms:
+   opsmanagerdatabase_datadb:
+   opt-mms:
+
+networks:
+  mongo:
