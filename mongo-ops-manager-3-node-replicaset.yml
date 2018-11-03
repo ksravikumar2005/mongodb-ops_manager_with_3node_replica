@@ -1,6 +1,22 @@
 version: "3.3"
 
 services:
+
+  db:
+     image: mongo:latest
+     ports:
+       - 27017:27017
+     volumes:
+       - application_data_db:/data/db
+     deploy:
+       mode: replicated
+       replicas: 0
+       placement:
+         constraints:
+           - node.labels.name == replica1
+     networks:
+      - mongo
+      
   opsmanager:
      image: ksravikumar2005/mongo:opsmanager
      ports:
@@ -18,7 +34,9 @@ services:
       replicas: 0
       placement:
         constraints:
-          - node.labels.name == replica1       
+          - node.labels.name == replica1
+     depends_on:
+       - db
      networks:
       - mongo
 
@@ -28,21 +46,6 @@ services:
        - 37017:27017
      volumes:
        - backup_data_db:/data/db
-     deploy:
-       mode: replicated
-       replicas: 0
-       placement:
-         constraints:
-           - node.labels.name == replica1
-     networks:
-      - mongo
-
-  db:
-     image: mongo:latest
-     ports:
-       - 27017:27017
-     volumes:
-       - application_data_db:/data/db
      deploy:
        mode: replicated
        replicas: 0
