@@ -13,6 +13,12 @@ services:
        - blockstore:/blockstore
        - ./ops-manager/default-conf-mms.properties:/opt/mongodb/mms/conf/conf-mms.properties
        - ./ops-manager/etc/mongodb-mms:/etc/mongodb-mms
+     deploy:
+      mode: replicated
+      replicas: 0
+      placement:
+        constraints:
+          - node.labels.name == replica1       
      networks:
       - mongo
 
@@ -22,6 +28,12 @@ services:
        - 37017:27017
      volumes:
        - backup_data_db:/data/db
+     deploy:
+       mode: replicated
+       replicas: 0
+       placement:
+         constraints:
+           - node.labels.name == replica1
      networks:
       - mongo
 
@@ -31,6 +43,12 @@ services:
        - 27017:27017
      volumes:
        - application_data_db:/data/db
+     deploy:
+       mode: replicated
+       replicas: 0
+       placement:
+         constraints:
+           - node.labels.name == replica1
      networks:
       - mongo
 
