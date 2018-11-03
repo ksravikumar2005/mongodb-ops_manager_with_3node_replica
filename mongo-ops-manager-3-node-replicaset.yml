@@ -10,7 +10,7 @@ services:
        - application_data_db:/data/db
      deploy:
        mode: replicated
-       replicas: 0
+       replicas: 1
        placement:
          constraints:
            - node.labels.name == replica1
@@ -31,7 +31,7 @@ services:
        - ./ops-manager/etc/mongodb-mms:/etc/mongodb-mms
      deploy:
       mode: replicated
-      replicas: 0
+      replicas: 1
       placement:
         constraints:
           - node.labels.name == replica1
@@ -48,7 +48,7 @@ services:
        - backup_data_db:/data/db
      deploy:
        mode: replicated
-       replicas: 0
+       replicas: 1
        placement:
          constraints:
            - node.labels.name == replica1
