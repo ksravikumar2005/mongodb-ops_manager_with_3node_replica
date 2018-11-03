@@ -112,8 +112,8 @@ volumes:
    etc-mms:
    opsmanagerdatabase_datadb:
    opt-mms:
-   backup_data_db
-   application_data_db
+   backup_data_db:
+   application_data_db:
 
 networks:
   mongo:
