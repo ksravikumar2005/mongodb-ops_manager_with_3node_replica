@@ -56,7 +56,7 @@ services:
       - mongo
 
   replica1:
-    image: ksravikumar2005/mongo:automation-agent
+    image: ksravikumar2005/mongo:automation-agent-centos
     hostname: replica1
     ports:
       - 44017:27017
@@ -73,7 +73,7 @@ services:
 #      restart_policy:
  #       condition: unless-stopped
   replica2:
-    image:  ksravikumar2005/mongo:automation-agent
+    image:  ksravikumar2005/mongo:automation-agent-centos
     hostname: replica2
     ports:
       - 45017:27017
@@ -91,7 +91,7 @@ services:
    #     condition: unless-stopped
 
   replica3:
-    image: ksravikumar2005/mongo:automation-agent
+    image: ksravikumar2005/mongo:automation-agent-centos
     hostname: replica3
     ports:
       - 46017:27017
